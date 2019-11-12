@@ -12,6 +12,10 @@ library(googlesheets4)
 library(tidyverse)
 library(readr)
 library(moderndive)
+```
+
+
+```{r setup, include=FALSE}
 
 sheets_deauth()
 x <- read_sheet("13NhlT-Oik5P4NOKRWwrJ7xZQlddFNk81HHEw9wkWglM")
@@ -21,6 +25,7 @@ x
 # partisanship and democratic vote:  partisanship and dvote 
 glimpse(x)
 
+# linear model : dvote as a function of partisanship
 dvote_reg <- lm(dvote ~ partisanship, data = x)
 
 reg_table <- get_regression_points(dvote_reg)
@@ -28,8 +33,10 @@ reg_table <- get_regression_points(dvote_reg)
 reg_table
 
 ggplot(x, aes(partisanship, dvote))+
-  geom_jitter() +
-  geom_smooth(method = "lm", se= FALSE)
+  geom_jitter() + 
+  geom_smooth(method = "glm", se= FALSE, method.args = list(family = "binomial")) #formula = y ~ poly(x,5))
+  
+  
 ```
 
 ```{r regression}
