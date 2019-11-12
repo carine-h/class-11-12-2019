@@ -1,0 +1,42 @@
+---
+title: "class-2019-11-12"
+author: "Carine Hajjar"
+date: "11/12/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(googlesheets4)
+library(tidyverse)
+library(readr)
+library(moderndive)
+
+sheets_deauth()
+x <- read_sheet("13NhlT-Oik5P4NOKRWwrJ7xZQlddFNk81HHEw9wkWglM")
+
+x
+
+# partisanship and democratic vote:  partisanship and dvote 
+glimpse(x)
+
+dvote_reg <- lm(dvote ~ partisanship, data = x)
+
+reg_table <- get_regression_points(dvote_reg)
+
+reg_table
+
+ggplot(x, aes(partisanship, dvote))+
+  geom_jitter() +
+  geom_smooth(method = "lm", se= FALSE)
+```
+
+```{r regression}
+dvote_reg <- lm(dvote ~ partisanship, data = x)
+
+dvote_reg
+
+# but this is a linear, not logistic regression
+```
+
